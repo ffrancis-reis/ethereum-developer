@@ -10,6 +10,12 @@
       {
         "indexed": false,
         "internalType": "string",
+        "name": "albumEvent_Description",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
         "name": "albumEvent_Artist",
         "type": "string"
       },
@@ -44,32 +50,6 @@
   },
   {
     "inputs": [],
-    "name": "albumTitle",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "artist",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "contractAuthor",
     "outputs": [
       {
@@ -83,7 +63,53 @@
   },
   {
     "inputs": [],
-    "name": "getAlbum",
+    "name": "currentAlbum",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "artist",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "albumTitle",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tracks",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCurrentAlbum",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUsersFavoriteAlbum",
     "outputs": [
       {
         "internalType": "string",
@@ -122,18 +148,57 @@
         "type": "uint256"
       }
     ],
-    "name": "setAlbum",
+    "name": "setCurrentAlbum",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "tracks",
-    "outputs": [
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_artist",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_albumTitle",
+        "type": "string"
+      },
       {
         "internalType": "uint256",
+        "name": "_tracks",
+        "type": "uint256"
+      }
+    ],
+    "name": "setUsersFavoriteAlbum",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userAlbums",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "artist",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "albumTitle",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tracks",
         "type": "uint256"
       }
     ],

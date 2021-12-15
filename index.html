@@ -14,22 +14,31 @@
   <body>
     <div class="container">
       <h1>The Album Dashboard</h1>
-
       <!--Display a spinner while waiting for information-->
       <img id="loader" src="ajax-loader.gif" />
-
+      <!--Status information coming from contract events-->
+      <h2>Status Message:<br /></h2>
+      <h2 id="status"></h2>
+      <!--Display current album information-->
+      <h2>CURRENT ALBUM INFORMATION:<br /></h2>
       <h2 id="album"></h2>
-
+      <!--Display the current user's favorite album information-->
+      <h2>CURRENT USER'S PERSONAL FAVORITE:<br /></h2>
+      <h2 id="userAlbum"></h2>
+      <!--Collect information to perform an update-->
+      <!--Get the Artist-->
       <label for="albumArtist" class="col-lg-2 control-label">Artist</label>
       <input id="albumArtist" type="text" />
-
+      <!--Get the Album Title-->
       <label for="albumName" class="col-lg-2 control-label">Album Name</label>
       <input id="albumName" type="text" />
-
+      <!--Get the number of tracks on the album-->
       <label for="tracks" class="col-lg-2 control-label">Tracks</label>
       <input id="tracks" type="text" />
-
+      <!--Use this information to update the current album-->
       <button id="button">Update Album</button>
+      <!--Use this information to update the current user's favorite album-->
+      <button id="userButton">Set My Personal Album</button>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -37,7 +46,7 @@
     <script>
       // Update these variables with YOUR account number and contract address
       var myAccountNumber = '0x3F29258272b911FA4001b0D13E9014f5E1bCdf05'
-      var myContractAddress = '0xA7872bEE46f87fe1Cd57D4243ceDBd1666033199'
+      var myContractAddress = '0x059c614f326dD9A0D488eCc77E0DE6abE6Cc9F3E'
 
       // Create a new web3 reference
       // web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
@@ -59,6 +68,12 @@
         {
           anonymous: false,
           inputs: [
+            {
+              indexed: false,
+              internalType: 'string',
+              name: 'albumEvent_Description',
+              type: 'string'
+            },
             {
               indexed: false,
               internalType: 'string',
@@ -96,32 +111,6 @@
         },
         {
           inputs: [],
-          name: 'albumTitle',
-          outputs: [
-            {
-              internalType: 'string',
-              name: '',
-              type: 'string'
-            }
-          ],
-          stateMutability: 'view',
-          type: 'function'
-        },
-        {
-          inputs: [],
-          name: 'artist',
-          outputs: [
-            {
-              internalType: 'string',
-              name: '',
-              type: 'string'
-            }
-          ],
-          stateMutability: 'view',
-          type: 'function'
-        },
-        {
-          inputs: [],
           name: 'contractAuthor',
           outputs: [
             {
@@ -135,7 +124,53 @@
         },
         {
           inputs: [],
-          name: 'getAlbum',
+          name: 'currentAlbum',
+          outputs: [
+            {
+              internalType: 'string',
+              name: 'artist',
+              type: 'string'
+            },
+            {
+              internalType: 'string',
+              name: 'albumTitle',
+              type: 'string'
+            },
+            {
+              internalType: 'uint256',
+              name: 'tracks',
+              type: 'uint256'
+            }
+          ],
+          stateMutability: 'view',
+          type: 'function'
+        },
+        {
+          inputs: [],
+          name: 'getCurrentAlbum',
+          outputs: [
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string'
+            },
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string'
+            },
+            {
+              internalType: 'uint256',
+              name: '',
+              type: 'uint256'
+            }
+          ],
+          stateMutability: 'view',
+          type: 'function'
+        },
+        {
+          inputs: [],
+          name: 'getUsersFavoriteAlbum',
           outputs: [
             {
               internalType: 'string',
@@ -174,18 +209,57 @@
               type: 'uint256'
             }
           ],
-          name: 'setAlbum',
+          name: 'setCurrentAlbum',
           outputs: [],
           stateMutability: 'nonpayable',
           type: 'function'
         },
         {
-          inputs: [],
-          name: 'tracks',
-          outputs: [
+          inputs: [
+            {
+              internalType: 'string',
+              name: '_artist',
+              type: 'string'
+            },
+            {
+              internalType: 'string',
+              name: '_albumTitle',
+              type: 'string'
+            },
             {
               internalType: 'uint256',
+              name: '_tracks',
+              type: 'uint256'
+            }
+          ],
+          name: 'setUsersFavoriteAlbum',
+          outputs: [],
+          stateMutability: 'nonpayable',
+          type: 'function'
+        },
+        {
+          inputs: [
+            {
+              internalType: 'address',
               name: '',
+              type: 'address'
+            }
+          ],
+          name: 'userAlbums',
+          outputs: [
+            {
+              internalType: 'string',
+              name: 'artist',
+              type: 'string'
+            },
+            {
+              internalType: 'string',
+              name: 'albumTitle',
+              type: 'string'
+            },
+            {
+              internalType: 'uint256',
+              name: 'tracks',
               type: 'uint256'
             }
           ],
@@ -198,8 +272,8 @@
       // Display contract info for confirmation
       console.log(album)
 
-      // Display album information.
-      albumContract.methods.getAlbum().call(function (error, result) {
+      // Display current album information.
+      albumContract.methods.getCurrentAlbum().call(function (error, result) {
         // Display album artist, title, and tracks
         if (!error) {
           $('#album').html(
@@ -209,16 +283,32 @@
         } else console.error(error)
       })
 
+      // Display current user's favorite album information.
+      albumContract.methods
+        .getUsersFavoriteAlbum()
+        .call({ from: myAccountNumber }, function (error, result) {
+          // Display album artist, title, and tracks
+          if (!error) {
+            $('#userAlbum').html(
+              result[0] + ' - ' + result[1] + ' (' + result[2] + ' tracks)'
+            )
+            console.log(result)
+          } else console.error(error)
+        })
+
       albumContract.events.albumEvent(
         function (error, result) {
           if (!error) {
             $('#loader').hide()
-            $('#album').html(
-              'The current album is ' +
+            $('#status').html(
+              result.returnValues.albumEvent_Description +
+                '<br/>' +
+                'ALBUM: ' +
                 result.returnValues.albumEvent_Title +
-                ' by ' +
+                '<br/>' +
+                'ARTIST: ' +
                 result.returnValues.albumEvent_Artist +
-                '.<br/> It contains ' +
+                '<br/>' +
                 result.returnValues.albumEvent_Tracks +
                 ' tracks.'
             )
@@ -232,7 +322,7 @@
       albumContract.events.errorEvent(
         function (error, result) {
           $('#loader').hide()
-          $('#album').html(
+          $('#status').html(
             '<h1>ERROR: </h1><br/>' + result.returnValues.errorEvent_Description
           )
         } // function(error, result)
@@ -252,11 +342,31 @@
 
         // Show the loading icon. This icon will be hidden when the albumEvent event is raised by the contract.
         $('#loader').show()
+        // Pass collected info to SetAlbum contract method
+        albumContract.methods
+          .setCurrentAlbum(theAlbumArtist, theAlbumName, albumTracks)
+          .send({ gas: 550000, from: myAccountNumber })
+      })
+
+      // Update the current user's favorite album info using the user-provided information
+      $('#userButton').click(function () {
+        // Get album info from the UI
+        var theAlbumArtist = $('#albumArtist').val()
+        console.log('THE ALBUM ARTIST IS: ' + theAlbumArtist)
+
+        var theAlbumName = $('#albumName').val()
+        console.log('THE ALBUM NAME IS: ' + theAlbumName)
+
+        var albumTracks = $('#tracks').val()
+        console.log('THE NUMBER OF TRACKS IS: ' + albumTracks)
+
+        // Show the loading icon. This icon will be hidden when the albumEvent event is raised by the contract.
+        $('#loader').show()
 
         // Pass collected info to SetAlbum contract method
         albumContract.methods
-          .setAlbum(theAlbumArtist, theAlbumName, albumTracks)
-          .send({ from: myAccountNumber })
+          .setUsersFavoriteAlbum(theAlbumArtist, theAlbumName, albumTracks)
+          .send({ gas: 550000, from: myAccountNumber })
       })
     </script>
   </body>
