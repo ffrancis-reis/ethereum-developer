@@ -19,8 +19,7 @@ A simple blockchain project to show the basics of smart contracts and Ethereum d
 2. Take a look at the smart contracts made at [Remix](https://remix.ethereum.org/), a browser-based IDE to develop [Ethereum](https://ethereum.org/en/) smart contracts. Ethereum is a decentralized platform that runs smart contracts.
 3. Install the dependencies with [NodeJS](https://nodejs.org/en/) and NPM.
 4. Test the application by updating the album details.
-   <!-- making calls to the contract on the [Rinkeby Test Network](https://rinkeby.etherscan.io/). -->
-   <!-- 5. Take a look at the transactions happening on the Rinkeby Test Network at [Etherscan](https://rinkeby.etherscan.io/) explorer. -->
+5. You can also test in Remix IDE after deploying to a test network like [Rinkeby Test Network](https://rinkeby.etherscan.io/) and look at the transactions happening on it.
 
 ### Dependencies
 
@@ -71,7 +70,7 @@ A simple blockchain project to show the basics of smart contracts and Ethereum d
 
 ![image](https://user-images.githubusercontent.com/29313947/146109041-665a6fea-52e8-49cd-bda1-1036ee91f47b.png)
 
-![image](https://user-images.githubusercontent.com/29313947/146109191-7bc0be71-c27d-4973-a563-9490d65af428.png)
+![image](https://user-images.githubusercontent.com/29313947/146117158-5462353f-1488-4508-bdc6-126e2b567070.png)
 
 6. Test the application by updating the album details and see its changes on developer console:
 
@@ -83,6 +82,21 @@ A simple blockchain project to show the basics of smart contracts and Ethereum d
 
 ![image](https://user-images.githubusercontent.com/29313947/146111894-0d73c644-a9e8-4796-8133-47131c931dce.png)
 
+8. At Remix IDE, deploy the contract on a test network (you will need a Metamask account):
+
+![image](https://user-images.githubusercontent.com/29313947/146116014-80e03c84-6ff7-4e93-99e8-0c7828e5011d.png)
+
+![image](https://user-images.githubusercontent.com/29313947/146116067-8cabd819-786c-4a36-9f9b-a50d7807fd66.png)
+
+9. Test it by setting a new current album (at Remix IDE):
+
+![image](https://user-images.githubusercontent.com/29313947/146116957-181eed17-7f9d-4572-80a1-a003bdbacf78.png)
+
+![image](https://user-images.githubusercontent.com/29313947/146116641-00d7c99b-3cce-4495-89dd-1d4cac983d0b.png)
+
+https://rinkeby.etherscan.io/address/0xca6542b455372f8bc63665cc3dbc0a6acc3f3871
+
+![image](https://user-images.githubusercontent.com/29313947/146116773-f54055fd-7b38-4950-b69e-124466c65e6d.png)
 
 ### Output
 
@@ -97,3 +111,7 @@ Here is an example of the smart contract in the blockchain and the transactions 
 ![image](https://user-images.githubusercontent.com/29313947/146115330-2b5faea5-9c24-474b-9299-b2e38d3b87ce.png)
 
 ![image](https://user-images.githubusercontent.com/29313947/146115372-534e0f3c-8630-4ba9-af83-6ca419681ca7.png)
+
+https://rinkeby.etherscan.io/tx/0xc89a3a5d8fd62b5016c50328da8899e3da01e5893664381e6459f78275498ab2
+
+![image](https://user-images.githubusercontent.com/29313947/146116327-3af3a473-9a87-428f-9279-e5517e1ff43f.png)
