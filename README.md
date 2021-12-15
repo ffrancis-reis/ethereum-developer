@@ -79,6 +79,11 @@ A simple blockchain project to show the basics of smart contracts and Ethereum d
 
 ![image](https://user-images.githubusercontent.com/29313947/146109452-e2304aee-f649-46e1-b313-4f75b7044e06.png)
 
+7. See that the contract don't let incoming changes if not contract owner (if you change **myAccountNumber** on the **.js** file to another address that didn't deployed the contract):
+
+![image](https://user-images.githubusercontent.com/29313947/146111894-0d73c644-a9e8-4796-8133-47131c931dce.png)
+
+
 ### Output
 
 Here is an example of the smart contract in the blockchain and the transactions on Rinkeby. You can see the contract ABI on **./abi.json**.
