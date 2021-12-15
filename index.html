@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Album Dashboard</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css" />
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>The Album Dashboard</h1>
+
+      <h2 id="album"></h2>
+
+      <label for="albumArtist" class="col-lg-2 control-label">Artist</label>
+      <input id="albumArtist" type="text" />
+
+      <label for="albumName" class="col-lg-2 control-label">Album Name</label>
+      <input id="albumName" type="text" />
+
+      <label for="tracks" class="col-lg-2 control-label">Tracks</label>
+      <input id="tracks" type="text" />
+
+      <button id="button">Update Album</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+      // Update these variables with YOUR account number and contract address
+      var myAccountNumber = 'account address from ganache'
+      var myContractAddress = 'contract address from ganache'
+
+      // Create a new web3 reference
+      web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
+
+      // Check your account balance, display the result
+      web3.eth.getBalance(myAccountNumber).then(balance => console.log(balance))
+
+      // Build a reference to the smart contract.
+      var albumContract = new web3.eth.Contract('contract abi from remix')
+      albumContract.options.address = myContractAddress
+
+      // Display contract info for confirmation
+      console.log(album)
+
+      // Display album information.
+      albumContract.methods.getAlbum().call(function (error, result) {
+        // Display album artist, title, and tracks
+        if (!error) {
+          $('#album').html(
+            result[0] + ' - ' + result[1] + ' (' + result[2] + ' tracks)'
+          )
+          console.log(result)
+        } else console.error(error)
+      })
+
+      // Update the current album info using the user-provided information
+      $('#button').click(function () {
+        // Get album info from the UI
+        var theAlbumArtist = $('#albumArtist').val()
+        console.log('THE ALBUM ARTIST IS: ' + theAlbumArtist)
+
+        var theAlbumName = $('#albumName').val()
+        console.log('THE ALBUM NAME IS: ' + theAlbumName)
+
+        var albumTracks = $('#tracks').val()
+        console.log('THE NUMBER OF TRACKS IS: ' + albumTracks)
+
+        // Pass collected info to SetAlbum contract method
+        albumContract.methods
+          .setAlbum(theAlbumArtist, theAlbumName, albumTracks)
+          .send({ from: myAccountNumber })
+      })
+    </script>
+  </body>
+</html>
