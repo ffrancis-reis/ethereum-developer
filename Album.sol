@@ -1,11 +1,35 @@
 // SPDX-License-Identifier: CC-BY-1.0
 // Creative Commons Attribution 1.0 Generic
 
+// A smart contract to hold utility functions
+contract Utility {
+    // The owner of the current instance of this smart contract
+    address owner;
+
+    // Event which will be raised anytime the current album information is updated.
+    event errorEvent(string errorEvent_Description);
+
+    // This function modifier ensures that the initiator of any transaction
+    //   it is attached to matches the address of the contract's owner.
+    // Use this function modifier for functions that should only
+    //   be performed by the owner of this contract instance.
+    modifier onlyOwner() {
+        if (msg.sender != owner) {
+            // The initiator of this transaction is NOT the contract instance's owner!
+            emit errorEvent(
+                "Only the owner of this contract instance can perform this function!"
+            );
+        } else {
+            _;
+        } // else
+    } // modifier onlyOwner
+} // Utility
+
 // Contract will be compiled on version 0.7.0 or greater
 pragma solidity ^0.7.0;
 
 // A smart contract to model a music album
-contract Album {
+contract Album is Utility {
     // A custom data structure used to define a music album
     struct musicAlbum {
         // The artist/group who recorded the album
@@ -24,9 +48,6 @@ contract Album {
     // The author of this smart contract
     string public constant contractAuthor = "ffrancis-reis";
 
-    // The owner of the current instance of this smart contract
-    address owner;
-
     // Event which will be raised anytime the current album information is updated.
     event albumEvent(
         string albumEvent_Description,
@@ -34,9 +55,6 @@ contract Album {
         string albumEvent_Title,
         uint256 albumEvent_Tracks
     );
-
-    // Event which will be raised anytime the current album information is updated.
-    event errorEvent(string errorEvent_Description);
 
     // Contract constructor.
     //   This code is called once when the contract instance is deployed to the Ethereum network
@@ -48,21 +66,6 @@ contract Album {
         // Set the owner property of this contract instance to the initiator of this contract deployment
         owner = msg.sender;
     } // constructor
-
-    // This function modifier ensures that the initiator of any transaction
-    //   it is attached to matches the address of the contract's owner.
-    // Use this function modifier for functions that should only
-    //   be performed by the owner of this contract instance.
-    modifier onlyOwner() {
-        if (msg.sender != owner) {
-            // The initiator of this transaction is NOT the contract instance's owner!
-            emit errorEvent(
-                "Only the owner of this contract instance can perform this function!"
-            );
-        } else {
-            _;
-        } // else
-    } // modifier onlyOwner
 
     // Returns the current album information
     function getCurrentAlbum()
