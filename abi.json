@@ -5,6 +5,31 @@
     "type": "constructor"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "albumEvent_Artist",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "albumEvent_Title",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "albumEvent_Tracks",
+        "type": "uint256"
+      }
+    ],
+    "name": "albumEvent",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "albumTitle",
     "outputs": [

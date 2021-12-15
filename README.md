@@ -2,9 +2,9 @@
 
 ### Introduction
 
-A simple blockchain project to show the basics of smart contracts and Ethereum development. The **Album.sol** us a simple smart contract that demonstrate a descentralized, permanent ledger to keep track of albums that any device would play and therefore being a trusted source that allow calculation of royalty payments.
+A simple blockchain project to show the basics of smart contracts and Ethereum development. The **Album.sol** is a simple smart contract that demonstrate a descentralized, permanent ledger to keep track of albums that any device would play and therefore being a trusted source that allow calculation of royalty payments.
 
-**Important**: The project was made with the versions below, but the contracts use different versions of the Solidity compiler. I suggest the compile and deploy fo the contracts in Remix IDE.
+**Important**: The project was made with the versions below, but the contracts use different versions of the Solidity compiler. I suggest compiling and deploying the contracts in Remix IDE.
 
 - Truffle v5.4.7 (core: 5.4.7)
 - Solidity v0.7.0 (solc-js)
@@ -67,9 +67,7 @@ A simple blockchain project to show the basics of smart contracts and Ethereum d
 
 ![image](https://user-images.githubusercontent.com/29313947/146108836-1fe2860f-3848-41cc-b190-932f765616f1.png)
 
-5. Update the **index.html** file with both addresses from Ganache and with the contract ABI from Remix (on the compiler tab):
-
-**Important**: Remember to use your addresses.
+5. Update the **index.html** file with both addresses from Ganache and with the contract ABI from Remix (on the compiler tab). **Remember to use your addresses**.
 
 ![image](https://user-images.githubusercontent.com/29313947/146109041-665a6fea-52e8-49cd-bda1-1036ee91f47b.png)
 
@@ -81,7 +79,6 @@ A simple blockchain project to show the basics of smart contracts and Ethereum d
 
 ![image](https://user-images.githubusercontent.com/29313947/146109452-e2304aee-f649-46e1-b313-4f75b7044e06.png)
 
-
 ### Output
 
 Here is an example of the smart contract in the blockchain and the transactions on Rinkeby. You can see the contract ABI on **./abi.json**.
@@ -89,4 +86,3 @@ Here is an example of the smart contract in the blockchain and the transactions 
 ![image](https://user-images.githubusercontent.com/29313947/146108448-d2f493f3-4e6a-40ae-8448-89fe4398499a.png)
 
 ![image](https://user-images.githubusercontent.com/29313947/146108494-5e8d72c0-56a8-4ce9-97ba-cbd76df11b3b.png)
-

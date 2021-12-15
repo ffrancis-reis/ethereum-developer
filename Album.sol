@@ -17,6 +17,13 @@ contract Album {
     // The author of this smart contract
     string public constant contractAuthor = "ffrancis-reis";
 
+    // Event which will be raised anytime the current album information is updated.
+    event albumEvent(
+        string albumEvent_Artist,
+        string albumEvent_Title,
+        uint256 albumEvent_Tracks
+    );
+
     constructor() {
         artist = "CD Projekt Red";
         albumTitle = "Cyberpunk 2077 Soundtrack";
@@ -45,5 +52,8 @@ contract Album {
         artist = _artist;
         albumTitle = _albumTitle;
         tracks = _tracks;
+
+        // Raise the albumEvent to let any event subscribers know the current album information has changed.
+        emit albumEvent(_artist, _albumTitle, _tracks);
     } // setAlbum
 } // Album

@@ -27,3 +27,7 @@ button {
   background-color: #fff;
   margin: 1em 0;
 }
+
+#loader {
+  display: none;
+}

@@ -15,6 +15,9 @@
     <div class="container">
       <h1>The Album Dashboard</h1>
 
+      <!--Display a spinner while waiting for information-->
+      <img id="loader" src="ajax-loader.gif" />
+
       <h2 id="album"></h2>
 
       <label for="albumArtist" class="col-lg-2 control-label">Artist</label>
@@ -33,17 +36,150 @@
 
     <script>
       // Update these variables with YOUR account number and contract address
-      var myAccountNumber = 'account address from ganache'
-      var myContractAddress = 'contract address from ganache'
+      var myAccountNumber = '0x4D6Ce1bFed342D1E0FDe0bDA856CCf0Cd4C980AE'
+      var myContractAddress = '0x56E10d876Dc145629Ce275b24E852545a5FaaE6C'
 
       // Create a new web3 reference
-      web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
+      // web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
+      // The syntax below uses Web3's WebsocketProvider instead of the HttpProvider. This provider DOES support event subscriptions.
+      let web3 = new Web3(
+        new Web3.providers.WebsocketProvider('ws://localhost:7545')
+      )
 
       // Check your account balance, display the result
       web3.eth.getBalance(myAccountNumber).then(balance => console.log(balance))
 
       // Build a reference to the smart contract.
-      var albumContract = new web3.eth.Contract('contract abi from remix')
+      var albumContract = new web3.eth.Contract([
+        {
+          inputs: [],
+          stateMutability: 'nonpayable',
+          type: 'constructor'
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: 'string',
+              name: 'albumEvent_Artist',
+              type: 'string'
+            },
+            {
+              indexed: false,
+              internalType: 'string',
+              name: 'albumEvent_Title',
+              type: 'string'
+            },
+            {
+              indexed: false,
+              internalType: 'uint256',
+              name: 'albumEvent_Tracks',
+              type: 'uint256'
+            }
+          ],
+          name: 'albumEvent',
+          type: 'event'
+        },
+        {
+          inputs: [],
+          name: 'albumTitle',
+          outputs: [
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string'
+            }
+          ],
+          stateMutability: 'view',
+          type: 'function'
+        },
+        {
+          inputs: [],
+          name: 'artist',
+          outputs: [
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string'
+            }
+          ],
+          stateMutability: 'view',
+          type: 'function'
+        },
+        {
+          inputs: [],
+          name: 'contractAuthor',
+          outputs: [
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string'
+            }
+          ],
+          stateMutability: 'view',
+          type: 'function'
+        },
+        {
+          inputs: [],
+          name: 'getAlbum',
+          outputs: [
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string'
+            },
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string'
+            },
+            {
+              internalType: 'uint256',
+              name: '',
+              type: 'uint256'
+            }
+          ],
+          stateMutability: 'view',
+          type: 'function'
+        },
+        {
+          inputs: [
+            {
+              internalType: 'string',
+              name: '_artist',
+              type: 'string'
+            },
+            {
+              internalType: 'string',
+              name: '_albumTitle',
+              type: 'string'
+            },
+            {
+              internalType: 'uint256',
+              name: '_tracks',
+              type: 'uint256'
+            }
+          ],
+          name: 'setAlbum',
+          outputs: [],
+          stateMutability: 'nonpayable',
+          type: 'function'
+        },
+        {
+          inputs: [],
+          name: 'tracks',
+          outputs: [
+            {
+              internalType: 'uint256',
+              name: '',
+              type: 'uint256'
+            }
+          ],
+          stateMutability: 'view',
+          type: 'function'
+        }
+      ])
       albumContract.options.address = myContractAddress
 
       // Display contract info for confirmation
@@ -60,6 +196,26 @@
         } else console.error(error)
       })
 
+      albumContract.events.albumEvent(
+        function (error, result) {
+          if (!error) {
+            $('#loader').hide()
+            $('#album').html(
+              'The current album is ' +
+                result.returnValues.albumEvent_Title +
+                ' by ' +
+                result.returnValues.albumEvent_Artist +
+                '.<br/> It contains ' +
+                result.returnValues.albumEvent_Tracks +
+                ' tracks.'
+            )
+          } else {
+            $('#loader').hide()
+            console.log(error)
+          } // else
+        } // function(error, result)
+      ) // albumContract.albumEvent
+
       // Update the current album info using the user-provided information
       $('#button').click(function () {
         // Get album info from the UI
@@ -71,6 +227,9 @@
 
         var albumTracks = $('#tracks').val()
         console.log('THE NUMBER OF TRACKS IS: ' + albumTracks)
+
+        // Show the loading icon. This icon will be hidden when the albumEvent event is raised by the contract.
+        $('#loader').show()
 
         // Pass collected info to SetAlbum contract method
         albumContract.methods
