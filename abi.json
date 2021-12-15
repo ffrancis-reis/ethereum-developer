@@ -30,6 +30,19 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "errorEvent_Description",
+        "type": "string"
+      }
+    ],
+    "name": "errorEvent",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "albumTitle",
     "outputs": [

@@ -36,8 +36,8 @@
 
     <script>
       // Update these variables with YOUR account number and contract address
-      var myAccountNumber = '0x4D6Ce1bFed342D1E0FDe0bDA856CCf0Cd4C980AE'
-      var myContractAddress = '0x56E10d876Dc145629Ce275b24E852545a5FaaE6C'
+      var myAccountNumber = '0x3F29258272b911FA4001b0D13E9014f5E1bCdf05'
+      var myContractAddress = '0xA7872bEE46f87fe1Cd57D4243ceDBd1666033199'
 
       // Create a new web3 reference
       // web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
@@ -79,6 +79,19 @@
             }
           ],
           name: 'albumEvent',
+          type: 'event'
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: 'string',
+              name: 'errorEvent_Description',
+              type: 'string'
+            }
+          ],
+          name: 'errorEvent',
           type: 'event'
         },
         {
@@ -215,6 +228,15 @@
           } // else
         } // function(error, result)
       ) // albumContract.albumEvent
+
+      albumContract.events.errorEvent(
+        function (error, result) {
+          $('#loader').hide()
+          $('#album').html(
+            '<h1>ERROR: </h1><br/>' + result.returnValues.errorEvent_Description
+          )
+        } // function(error, result)
+      ) // albumContract.errorEvent
 
       // Update the current album info using the user-provided information
       $('#button').click(function () {
